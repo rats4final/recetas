@@ -23,9 +23,7 @@ const App = () => {
   return (
     <PaperProvider>
       <View style={styles.container}>
-        <Appbar>
-          <Appbar.Content title="App Recetas"/>
-        </Appbar>
+        
         <Searchbar
           placeholder='buscar'
           value={searchQuery}

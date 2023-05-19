@@ -6,10 +6,20 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Section,
+
   Image,
   Alert,
 } from 'react-native';
+import {Searchbar} from 'react-native-paper'
+
+function DetailsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Button!</Text>
+    </View>
+  );
+}
+
 
 export default function Reseñas() {
   const [Estrellas, setEstrellas] = useState('');
@@ -42,6 +52,13 @@ export default function Reseñas() {
 
   return (
     <View style={styles.container}>
+
+<Searchbar
+          placeholder='buscar'
+          
+          mode='bar'
+        />
+
       <Text style={styles.label}>Estrellas</Text>
       <TextInput
         placeholder="Estrellas"
