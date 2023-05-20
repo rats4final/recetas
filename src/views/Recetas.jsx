@@ -31,7 +31,7 @@ const Receta = () => {
       <Searchbar placeholder="buscar" value={searchQuery} onChangeText={onChangeSearch} mode="bar"/>
       <ScrollView>
         {recetas.map(receta => (
-          <Card key={receta.id}onPress={() => navigation.navigate('DetalleReceta', {idReceta: receta.id})}>
+          <Card key={receta.id}onLongPress={() => navigation.navigate('DetalleReceta', {idReceta: receta.id})}>
             <Card.Title title={receta.nombre} />
             <Card.Cover source={{uri: receta.thumbnail.url}} />
             <Card.Content>
