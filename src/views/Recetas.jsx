@@ -13,7 +13,7 @@ const Receta = () => {
   const navigation = useNavigation();
   const [recetas, setRecetas] = useState([]);
   const [searchQuery, setSearchQueary] = useState('');
-  const url = `${API_URL}api/recetas`;//ejemplo de como usar el env
+  const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async function () {
     const response = await fetch(url);
     const data = await response.json();
