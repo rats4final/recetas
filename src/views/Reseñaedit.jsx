@@ -11,7 +11,7 @@ const Edit = () => {
   const [Cuerpo, setCuerpo] = useState(cuerpo);
 
   const Actualizar = () => {
-    const url = `http://10.174.79.80:8000/api/reseñas/${id}`;
+    const url = `http://192.168.1.110:8000/api/reseñas/${id}`;
 
     fetch(url, {
       method: 'PATCH',
