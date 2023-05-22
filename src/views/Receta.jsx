@@ -30,6 +30,7 @@ const App = () => {
           onChangeText={onChangeSearch}
           mode='bar'
         />
+
         <Text>Hello, I am your cat!!!</Text>
         <ScrollView>
           {

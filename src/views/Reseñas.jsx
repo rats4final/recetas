@@ -1,114 +1,155 @@
-import React, { useState } from 'react';
-
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
-  Button,
   Text,
   View,
   StyleSheet,
-  TextInput,
-
-  Image,
+  ScrollView,
   Alert,
+  TouchableOpacity,
+  Button,
 } from 'react-native';
-import {Searchbar} from 'react-native-paper'
+import { Searchbar, Card, Paragraph } from 'react-native-paper';
 
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Button!</Text>
-    </View>
-  );
-}
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function Reseñas() {
-  const [Estrellas, setEstrellas] = useState('');
-  const [Cuerpo, setCuerpo] = useState('');
-  url = "http://10.174.79.80:8000/api/reseñas";
-  const Enviar_Data = () => {
-    const data = {
-      id_receta: 1,
-      id_user: 1,//llave de user cuando usemos authentica
-      estrellas: parseInt(Estrellas),
-      cuerpo: Cuerpo,
-    };
+  const navigation = useNavigation();
 
-    fetch(url, {
-      method: 'POST',
+  const [reseña, setRecetas] = useState([]);
+  const [filteredReseña, setFilteredReseña] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const url = 'http://10.174.79.80:8000/api/reseñas/1';
+
+  const getRecetas = async function () {
+    const response = await fetch(url);
+    const data1 = await response.json();
+    setRecetas(data1.data); 
+    setFilteredReseña(data1.data);
+  };
+
+  useEffect(() => {
+    getRecetas();
+  }, []);
+
+  const Eliminated = (value) => {
+    const urls = `http://10.174.79.80:8000/api/reseñas/${value}`;
+    fetch(urls, {
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        Alert.alert('Mensaje de la Api',responseJson.message);
+      .then((responseData) => {
+        Alert.alert('Mensaje de la Api', responseData.message);
+        getRecetas();
       })
       .catch((error) => {
-        console.error(error);
+        Alert.alert('Mensaje de la Api');
       });
+  };
+
+  const Buscador = (text) => {
+    setSearchText(text);
+    const filteredList = reseña.filter((item) =>
+      item.receta_owner.nombre.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredReseña(filteredList);
+  };
+
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
   };
 
   return (
     <View style={styles.container}>
-
-<Searchbar
-          placeholder='buscar'
-          
-          mode='bar'
-        />
-
-      <Text style={styles.label}>Estrellas</Text>
-      <TextInput
-        placeholder="Estrellas"
-        keyboardType="numeric"
-        style={styles.input}
-        value={Estrellas}
-        // onChangeText={text => setNombre(text)}
-        onChangeText={(text) => setEstrellas(text)}
+      <Searchbar
+        placeholder="Buscar por nombre de Reseña"
+        mode="bar"
+        value={searchText}
+        onChangeText={Buscador}
+        style={{ borderRadius: 0, padding: 0 }}
+        icon="magnify"
+        clearIcon="close"
       />
-      <Text style={styles.label}>Cuerpo</Text>
-      <TextInput
-        placeholder="Cuerpo de la reseña"
-        style={styles.input}
-        value={Cuerpo}
-        // onChangeText={ text => setApellido(text)}
-        onChangeText={(text) => setCuerpo(text)}
-      />
-      <Button style={styles.button} onPress={Enviar_Data} title="Registrar" />
+      <Text></Text>
+
+      <ScrollView>
+        {filteredReseña.map((item) => (
+          <View style={styles.Card} key={item.id}>
+            <Card key={item.id} style={styles.Card}>
+              <Card.Title title={item.receta_owner.nombre} />
+              <Card.Cover source={{ uri: item.receta_owner.images[0].url }} />
+
+              <Card.Content>
+                <Text style={styles.label} label>
+                  Estrellas
+                </Text>
+                <Paragraph>{item.estrellas}</Paragraph>
+              </Card.Content>
+
+              <Card.Content>
+                <Text style={styles.Cuerpo}>Cuerpo de la reseña</Text>
+                <Text></Text>
+                <Paragraph>
+                  {truncateText(item.cuerpo, 200)} {/* Limitar a 100 caracteres */}
+                </Paragraph>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Stack', {
+                      name: item.receta_owner.nombre,
+                      id: item.id,
+                      id_receta: item.id_receta,
+                      id_user: item.id_user,
+                      estrellas: item.estrellas,
+                      cuerpo: item.cuerpo,
+                      imagen: item.receta_owner.images[0].url,
+                    })
+                  }
+                  style={styles.button}>
+                  <Text style={styles.buttonText}>Editar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => Eliminated(item.id)}
+                  style={styles.button}>
+                  <Text>Eliminar</Text>
+                </TouchableOpacity>
+              </Card.Content>
+            </Card>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    fontSize: 16,
-    margin: 12,
-  },
-
   button: {
     borderRadius: 40,
-    color: '#FF0000',
+    borderWidth: 1,
+    borderColor: '#FF0000',
+    alignItems: 'center',
     margin: 12,
+    paddingVertical: 10,
   },
-  imagen: {
-    height: 300,
-    width: 300,
-    margin: 46,
+  container: {
+    marginBottom: 70,
+    padding: 5,
+  },
+  Card: {
+    padding: 8,
   },
   label: {
+    fontWeight: 'bold', 
+    color: 'gold',
+  },
+  Cuerpo: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
