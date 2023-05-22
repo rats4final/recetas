@@ -10,7 +10,7 @@ import { mdiAccount } from '@mdi/js';
 
 import Reseñas from './src/views/Reseñas';
 import Home from './src/views/Home';
-import Receta from './src/views/Receta';
+import RecetaStackScreen from "./src/views/Recetas"
 import EditReseña from './src/views/Reseñaedit';
 
 const Stack = createNativeStackNavigator();
@@ -61,8 +61,8 @@ function MyTabs() {
           },
         }}
       />
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Receta" component={Receta} />
+      <Tab.Screen name="Home" component={Home}/>
+      <Tab.Screen name="Recetas" component={RecetaStackScreen}/>
     </Tab.Navigator>
   );
 }
