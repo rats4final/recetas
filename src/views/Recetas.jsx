@@ -1,9 +1,8 @@
 // Receta.jsx
 import * as React from 'react'
 import  {useState, useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Searchbar, Card, Paragraph, PaperProvider} from 'react-native-paper'
-import { ScrollView } from 'react-native';
+import {StyleSheet, View, AsyncStorage, ScrollView} from 'react-native';
+import {Searchbar, Card, Paragraph} from 'react-native-paper';//ver luego lo de paperprovider
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import DetalleReceta from './DetalleReceta';
