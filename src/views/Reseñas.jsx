@@ -12,6 +12,7 @@ import {
 import { Searchbar, Card, Paragraph } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
+import {API_URL} from "@env"
 
 export default function Reseñas() {
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ export default function Reseñas() {
   const [reseña, setRecetas] = useState([]);
   const [filteredReseña, setFilteredReseña] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const url = 'http://192.168.1.110:8000/api/reseñas/3';
+  const url = `${API_URL}reseñas/3`;
 
   const getRecetas = async function () {
     const response = await fetch(url);
@@ -33,7 +34,7 @@ export default function Reseñas() {
   }, []);
 
   const Eliminated = (value) => {
-    const urls = `http://192.168.1.110:8000/api/reseñas/${value}`;
+    const urls = `${API_URL}reseñas/${value}`;
     fetch(urls, {
       method: 'DELETE',
       headers: {

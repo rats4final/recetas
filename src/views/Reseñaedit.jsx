@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Text, View, StyleSheet, TextInput, Image, Alert, TouchableOpacity,ScrollView } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import {API_URL} from "@env"
 
 const Edit = () => {
   const route = useRoute();
@@ -11,7 +12,7 @@ const Edit = () => {
   const [Cuerpo, setCuerpo] = useState(cuerpo);
 
   const Actualizar = () => {
-    const url = `http://192.168.1.110:8000/api/reseñas/${id}`;
+    const url = `${API_URL}reseñas/${id}`;
 
     fetch(url, {
       method: 'PATCH',

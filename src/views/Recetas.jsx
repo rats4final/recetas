@@ -39,10 +39,10 @@ const Receta = () => {
       if(state.isConnected) {
         getRecetas();
       } else {
-        (async () => {
-          const storedData = await AsyncStorage.getItem('recetas');
-          if(storedData !== null) {
-            setRecetas(JSON.parse(storedData));
+        (async () => {//TODO: revisar si funciona esta parte sin esos parentesis raros
+          const datosGuardados = await AsyncStorage.getItem('recetas');
+          if(datosGuardados !== null) {
+            setRecetas(JSON.parse(datosGuardados));
             console.log("puta madre");
           }
         })();

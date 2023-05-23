@@ -3,12 +3,13 @@ import {useState, useEffect} from 'react';
 import {Card, Paragraph} from 'react-native-paper'
 import {StyleSheet, Dimensions, Text, View, ActivityIndicator, Image, ScrollView} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
+import {API_URL} from "@env"
 
 const DetalleReceta = ({route}) => {
   //no olvidar el return de mierda
   const ancho = Dimensions.get('window').width;
   const [receta, setReceta] = useState({images:[],ingredientes:[],reseñas:[]}); // investigar mas sobre useState(), muy importante;
-  const url = 'http://192.168.1.110:8000/api/recetas/'; // extra / para el endpoint
+  const url = `${API_URL}recetas/`; // extra / para el endpoint
   const {idReceta} = route.params;
   const getReceta = async () => {
     const response = await fetch(`${url}${idReceta}`);
