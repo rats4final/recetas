@@ -13,7 +13,7 @@ const Edit = () => {
 
   const Actualizar = () => {
     const url = `${API_URL}reseñas/${id}`;
-
+    //console.log(url);
     fetch(url, {
       method: 'PATCH',
       headers: {

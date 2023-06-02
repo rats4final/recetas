@@ -10,6 +10,7 @@ const DetalleReceta = ({route}) => {
   const ancho = Dimensions.get('window').width;
   const [receta, setReceta] = useState({images:[],ingredientes:[],reseñas:[]}); // investigar mas sobre useState(), muy importante;
   const url = `${API_URL}recetas/`; // extra / para el endpoint
+  //console.log(url);
   const {idReceta} = route.params;
   const getReceta = async () => {
     const response = await fetch(`${url}${idReceta}`);

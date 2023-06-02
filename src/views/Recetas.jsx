@@ -18,6 +18,7 @@ const Receta = () => {
   const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async () => {
     try{
+      //console.log(url);
       const response = await fetch(url);
       const data = await response.json();
       //console.log(data);
@@ -48,7 +49,7 @@ const Receta = () => {
         })();
       }
     });
-  }, []);
+  }, [setRecetas]);
 
   const onChangeSearch = query => setSearchQueary(query);
 

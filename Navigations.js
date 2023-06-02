@@ -12,6 +12,7 @@ import Reseñas from './src/views/Reseñas';
 import Home from './src/views/Home';
 import RecetaStackScreen from "./src/views/Recetas"
 import EditReseña from './src/views/Reseñaedit';
+import HomeStackScreen from './src/views/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,7 +62,7 @@ function MyTabs() {
           },
         }}
       />
-      <Tab.Screen name="Home" component={Home}/>
+      <Tab.Screen name="App Recetas" component={HomeStackScreen}/>
       <Tab.Screen name="Recetas" component={RecetaStackScreen}/>
     </Tab.Navigator>
   );
