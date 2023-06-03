@@ -33,7 +33,7 @@ export default function Reseñas() {
   const [reseña, setRecetas] = useState({ images: [] });
   const [filteredReseña, setFilteredReseña] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const url = `${API_URL}reseñas/1`;
+  const url = `${API_URL}reseñas/3`;
   //console.log(url);
   
 
