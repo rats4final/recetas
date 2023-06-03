@@ -15,6 +15,7 @@ import Reseñas from './src/views/Reseñas';
 import Home from './src/views/Home';
 import RecetaStackScreen from "./src/views/Recetas"
 import EditReseña from './src/views/Reseñaedit';
+import login from './src/views/Login';
 import HomeStackScreen from './src/views/Home';
 
 
@@ -80,6 +81,24 @@ function MyTabs() {
         component={RecetaStackScreen} 
         options={{
           title: 'Recetas',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon
+              name="cutlery"
+              size={size}
+              color="black"
+            />
+          ),
+        }}
+        
+        
+        />
+
+
+<Tab.Screen 
+        name="login" 
+        component={login} 
+        options={{
+          title: 'login',
           tabBarIcon: ({ focused, color, size }) => (
             <Icon
               name="cutlery"
