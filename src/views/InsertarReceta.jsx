@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {Text, SafeAreaView} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 import {API_URL} from '@env';
 import {Button, TextInput} from 'react-native-paper';
@@ -8,6 +8,10 @@ import DocumentPicker, {
   isCancel,
   isInProgress,
 } from 'react-native-document-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format } from 'date-fns';
+
+
 
 const InsertarReceta = () => {
   const [categorias, setCategorias] = useState([]);
@@ -16,7 +20,11 @@ const InsertarReceta = () => {
   const [selectedIngredientes, setSelectedIngredientes] = useState([]);
   const [nombre, setNombre] = useState('');
   const [instrucciones, setInstrucciones] = useState('');
+
+  const [fecha, setFecha] = useState(new Date())
   const [tiempo, setTiempo] = useState('');
+  const [show, setShow] = useState(false);
+
   const [imagenes, setImagenes] = useState([]);
   const [usuario, setUsuario] = useState(3); // esto esta hardcoded de momento
   const [selectedCategoria, setSelectedCategoria] = useState([]);
@@ -74,10 +82,23 @@ const InsertarReceta = () => {
     console.log(data);
   };
 
+  const onChange = (event, selectedTime) =>{
+    const currentDate = selectedTime || fecha
+    setShow(false);
+    setFecha(currentDate);
+    const tiempoFormateado = format(currentDate,'HH:mm');
+    setTiempo(tiempoFormateado);
+    console.log(tiempoFormateado)
+  };
+
+  const showTimePicker = () => {
+    setShow(true);
+  }
+
   useEffect(() => {
     getCategorias();
     getIngredientes();
-  }, [getCategorias, getIngredientes]); // [] es igual a on mount
+  }, []); // [] es igual a on mount
 
   return (
     <SafeAreaView>
@@ -90,14 +111,30 @@ const InsertarReceta = () => {
         value={nombre}
         onChangeText={nombre => setNombre(nombre)}
       />
-      <TextInput
+      {/* <TextInput
         mode="flat"
         label="Tiempo que toma la receta"
         value={tiempo}
         onChangeText={tiempo => setTiempo(tiempo)}
         inputMode="numeric"
         right={<TextInput.Affix text="minutos" />}
-      />
+      /> */}
+      <Button
+        onPress={showTimePicker}
+      >Tiempo de la receta
+      </Button>
+      {show && (
+        <DateTimePicker
+          testID='dateTimePicker'
+          mode='time'
+          value={fecha}
+          onChange={onChange}
+          display='spinner'
+        />
+      )}
+      <Text
+        className="text-black text-left bg-white m-1 p-2"
+      >Tiempo de la receta(HH:mm): {tiempo}</Text>
       <TextInput
         mode="flat"
         label="Instrucciones"
