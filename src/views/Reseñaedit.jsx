@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Text, View, StyleSheet, TextInput, Image, Alert, TouchableOpacity,ScrollView } from "react-native";
+import { Button, Text, View, StyleSheet,Dimensions, TextInput, Image, Alert, TouchableOpacity,ScrollView } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import {API_URL} from "@env"
+
+import Carousel from 'react-native-reanimated-carousel';
+
+import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+
+const ancho = Dimensions.get('window').width;
 
 const Edit = () => {
   const route = useRoute();
@@ -35,14 +41,37 @@ const Edit = () => {
         console.error(error);
       });
 
-    navigation.navigate("ReseñaScreen"); 
+      navigation.goBack();
   }
 
   return (
     <ScrollView>
     <View style={styles.container}>
       <Text style={styles.label}>{name}</Text>
-      <Image style={styles.imagen} source={{ uri: imagen }} />
+      {/* <Image style={styles.imagen} source={{ uri: imagen }} /> */}
+
+      <GestureHandlerRootView >
+              <Carousel
+        mode='parallax'
+        loop
+        width={ancho + 5}
+        height={ancho / 2}
+        autoPlay={false}
+        scrollAnimationDuration={1000}
+        data={imagen}
+        renderItem={({item})=>(//esto es como un foreach basicamente
+            <Image
+                className="rounded-lg"
+                key={item.id}
+                style={{width: ancho, height: ancho / 2}}
+                source={{uri:item.url}}
+            />
+        )}
+      />
+    </GestureHandlerRootView>
+
+
+
 
       <Text style={styles.label}>Estrellas</Text>
       <TextInput
@@ -60,7 +89,9 @@ const Edit = () => {
       <TextInput
         value={Cuerpo}
         placeholder="Cuerpo de la reseña"
-        style={styles.input}
+        multiline
+      numberOfLines={4}
+        style={styles.area}
         onChangeText={(text) => setCuerpo(text)}
       />
 
@@ -87,6 +118,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 16,
     margin: 12,
+  },
+
+  area: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 16,
+    margin: 12,
+    textAlignVertical: 'top', // Alineación del texto en la parte superior
+    height: 210, // Altura del campo de texto
   },
   button: {
     borderRadius: 40,
