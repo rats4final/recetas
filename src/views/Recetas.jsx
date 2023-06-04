@@ -20,7 +20,7 @@ const Receta = () => {
   const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async () => {
     try{
-      //console.log(url);
+      console.log(url);
       const response = await fetch(url);
       const data = await response.json();
       //console.log(data);
@@ -31,6 +31,7 @@ const Receta = () => {
       return (data.data);
     }catch(error){
       console.error("Fallo al obtener los datos ", error)
+      console.log(url);
       const datosGuardados = await AsyncStorage.getItem('recetas');
       if(datosGuardados !== null){
         setFilteredRecetas(JSON.parse(datosGuardados));

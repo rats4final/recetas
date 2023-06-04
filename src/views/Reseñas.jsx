@@ -34,7 +34,7 @@ export default function Reseñas() {
   const [filteredReseña, setFilteredReseña] = useState([]);
   const [searchText, setSearchText] = useState('');
   const url = `${API_URL}reseñas/3`;
-  //console.log(url);
+  console.log(url);
   
 
   useEffect(() => {
