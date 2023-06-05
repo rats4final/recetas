@@ -18,6 +18,7 @@ import EditReseña from './src/views/Reseñaedit';
 import Login from './src/views/Login';
 import HomeStackScreen from './src/views/Home';
 import Registro from './src/views/Registro';
+import Ingredientes from './src/views/Ingredientes';
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +94,16 @@ function MyTabs() {
         options={{
           title: 'Recetas',
           tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="cutlery" size={size} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Ingredientes"
+        component={Ingredientes}
+        options={{
+          title: 'Ingredientes',
+          tabBarIcon: ({  size }) => (
             <Icon name="cutlery" size={size} color="black" />
           ),
         }}
