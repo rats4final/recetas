@@ -76,7 +76,7 @@ const DetalleReceta = ({route}) => {
         }
       </ScrollView>
       <Button
-        onPress={()=>navigation.navigate('AgregarReseña',{idReceta: idReceta})}
+        onPress={()=>navigation.navigate('AgregarReseña',{idReceta: idReceta , images:receta.images})}
       >Agregar un Comentario</Button>
     </View>
   );

@@ -10,12 +10,23 @@ import {
   Alert,
 } from 'react-native';
 
+import { CommonActions } from '@react-navigation/native';
+
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import InsertarReceta from './InsertarReceta';
 
 const Home = () => {
   const navigation = useNavigation();
+  // navigation.dispatch(
+  //   CommonActions.reset({
+  //     index:1,
+  //     routes: [
+  //       {name:"Home"},
+  //       {name:"Crear una receta"}
+  //     ]
+  //   })
+  // )
 
   return (
     <View>

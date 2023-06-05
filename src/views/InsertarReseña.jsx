@@ -6,16 +6,24 @@ import {
   StyleSheet,
   TextInput,
   Alert,
+  Dimensions,
+  Image
 } from 'react-native';
 
 import {API_URL} from '@env';
+
+import Carousel from 'react-native-reanimated-carousel';
+
+import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+
+const ancho = Dimensions.get('window').width;
 
 const InsertarReseña = ({route}) => {
   
   const [estrellas, setEstrellas] = useState('');
   const [cuerpo, setCuerpo] = useState('');
   const [idUser, setIdUser] = useState(3);
-  const {idReceta} = route.params;
+  const {idReceta,images} = route.params;
   const url = `${API_URL}reseñas`;
   
   const reseña = {
@@ -45,6 +53,28 @@ const InsertarReseña = ({route}) => {
 
   return (
     <View style={styles.container}>
+
+<GestureHandlerRootView >
+              <Carousel
+        mode='parallax'
+        loop
+        width={ancho + 5}
+        height={ancho / 2}
+        autoPlay={false}
+        scrollAnimationDuration={1000}
+        data={images}
+        renderItem={({item})=>(//esto es como un foreach basicamente
+            <Image
+                className="rounded-lg"
+                key={item.id}
+                style={{width: ancho, height: ancho / 2}}
+                source={{uri:item.url}}
+            />
+        )}
+      />
+    </GestureHandlerRootView>
+
+
       <Text style={styles.label}>Estrellas</Text>
       <TextInput
         placeholder="Estrellas"

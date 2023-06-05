@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
 
-// import { MaterialIcons } from '@expo/vector-icons';
-
-// You can import from local files
+// import { MaterialIcons } from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+// Importación de componentes
 import AssetExample from '../views/ComponenteLogin';
 
 // or any pure JavaScript modules available in npm
 import { Card } from 'react-native-paper';
 
-export default function App() {
+import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+
+const Login = () => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const [rememberMe, setRememberMe] = React.useState(false);
 
@@ -20,7 +23,7 @@ export default function App() {
   const toggleRememberMe = () => {
     setRememberMe(!rememberMe);
   };
-
+  const navigation = useNavigation();
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
@@ -30,8 +33,12 @@ export default function App() {
         <AssetExample />
       </Card>
       <View style={styles.subtitlesContainer}>
-        <Text style={styles.subtitle}>Inicio de sesión</Text>
-        <Text style={styles.subtitle}>Registro</Text>
+      <Text style={styles.subtitle}>Inicio de sesión</Text>
+        <TouchableOpacity onPress={() => {
+          navigation.navigate('Registro')
+        }}>
+     <Text style={styles.subtitle}>Registro</Text>
+     </TouchableOpacity>
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Correo electrónico</Text>
@@ -53,25 +60,43 @@ export default function App() {
           </TouchableOpacity>
         </View>
       </View>
-      {/* <View style={styles.checkboxContainer}>
+      <View style={styles.checkboxContainer}>
         <TouchableOpacity onPress={toggleRememberMe} style={styles.checkbox}>
-          {rememberMe && <MaterialIcons name="check-box" size={24} color="black" />}
-          {!rememberMe && <MaterialIcons name="check-box-outline-blank" size={24} color="black" />}
+          {rememberMe ? (
+            <Icon name="check-box" size={24} color="black" />
+          ) : (
+            <Icon name="check-box-outline-blank" size={24} color="black" />
+          )}
           <Text style={styles.checkboxLabel}>Recuérdame</Text>
         </TouchableOpacity>
-      </View> */}
-      {/* <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Olvidé mi contraseña</Text>
-      </TouchableOpacity> */}
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button}   
+          onPress={() => {
+            //navigation.navigate('Home');
+            navigation.dispatch(
+              CommonActions.reset({
+                  index: 0,
+                  routes: [
+                      { name: 'Home' },
+                  ],
+              })
+          );
+          }}
+        >
+
+          <Text style={styles.buttonText}>Iniciar sesión</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.imageContainer}>
         <Image
-          source={require('../views/Imagenes/majao.jpg')}
+          source={require('../views/Imagenes/gatito.png')}
           style={styles.bottomImage}
           resizeMode="contain"
         />
       </View>
     </ScrollView>
-  );
+);
 }
 
 const styles = StyleSheet.create({
@@ -168,4 +193,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 150,
   },
+
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#add8e6',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#000',
+  },
 });
+
+export default Login;
