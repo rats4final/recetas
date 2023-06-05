@@ -17,11 +17,20 @@ import { useNavigation } from '@react-navigation/native';
 import { API_URL } from '@env';
 export default function Reseñas() {
     const navigation = useNavigation();
-    const [ingredientes, setIngredientes] = useState();
+    const [ingredientes, setIngredientes] = useState('');
     const [filteredIngrediente, setFilteredIngrediente] = useState([]);
     const [searchText, setSearchText] = useState('');
 
     const url = `${API_URL}ingredientes`;
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          getIngredientes();
+        });
+      
+        return unsubscribe;
+      }, [navigation]);
+
 
     const getIngredientes = async function () {
         const response = await fetch(url);
