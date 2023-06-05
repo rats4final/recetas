@@ -5,7 +5,7 @@ import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
 import { Searchbar, Card, Paragraph } from 'react-native-paper';//ver luego lo de paperprovider
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import DetalleReceta from './DetalleReceta';
+import DetalleRecetaStackScreen from './DetalleReceta';
 import {API_URL} from "@env"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo'
@@ -20,7 +20,7 @@ const Receta = () => {
   const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async () => {
     try{
-      console.log(url);
+      //console.log(url);
       const response = await fetch(url);
       const data = await response.json();
       //console.log(data);
@@ -86,7 +86,10 @@ const Receta = () => {
         }
       >
       {filteredRecetas.map(receta => (
-        <Card key={receta.id}onLongPress={() => navigation.navigate('DetalleReceta', {idReceta: receta.id})}>
+        <Card key={receta.id}onLongPress={() => navigation.navigate('DetalleRecetaScreen', {
+          screen: 'DetalleReceta',
+          params: {idReceta: receta.id}
+        })}>
           <Card.Title title={receta.nombre} />
           <Card.Cover source={{uri: receta.thumbnail.url}} />
           <Card.Content>
@@ -108,9 +111,11 @@ const RecetaStack = createStackNavigator();
 
 const RecetaStackScreen = () => {
   return (
-    <RecetaStack.Navigator>
+    <RecetaStack.Navigator
+      screenOptions={{headerShown:false}}
+    >
       <RecetaStack.Screen name="Lista de Recetas" component={Receta} />
-      <RecetaStack.Screen name="DetalleReceta" component={DetalleReceta} />
+      <RecetaStack.Screen name="DetalleRecetaScreen" component={DetalleRecetaStackScreen} />
     </RecetaStack.Navigator>
   );
 };

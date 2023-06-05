@@ -60,9 +60,9 @@ export default function App() {
           <Text style={styles.checkboxLabel}>Recuérdame</Text>
         </TouchableOpacity>
       </View> */}
-      <TouchableOpacity style={styles.forgotPassword}>
+      {/* <TouchableOpacity style={styles.forgotPassword}>
         <Text style={styles.forgotPasswordText}>Olvidé mi contraseña</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View style={styles.imageContainer}>
         <Image
           source={require('../views/Imagenes/majao.jpg')}
