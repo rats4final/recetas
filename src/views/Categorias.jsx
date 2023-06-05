@@ -12,36 +12,36 @@ import {
     Image,
   } from 'react-native';
   import { Searchbar, Card, Paragraph } from 'react-native-paper';
-  import { SafeAreaView } from 'react-native-safe-area-context';
+  
 
 import { useNavigation } from '@react-navigation/native';
 import { API_URL } from '@env';
-export default function Reseñas() {
+export default function Categorias() {
     const navigation = useNavigation();
-    const [ingredientes, setIngredientes] = useState('');
-    const [filteredIngrediente, setFilteredIngrediente] = useState([]);
+    const [categorias, setCategorias] = useState('');
+    const [filteredCategorias, setFilteredCategorias] = useState([]);
     const [searchText, setSearchText] = useState('');
-
-    const url = `${API_URL}ingredientes`;
+//mas rapido :v No
+    const url = `${API_URL}categorias`;
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          getIngredientes();
+          getCategorias();
         });
       
         return unsubscribe;
       }, [navigation]);
 
 
-    const getIngredientes = async function () {
+    const getCategorias = async function () {
         const response = await fetch(url);
         const data1 = await response.json();
-        setIngredientes(data1.data);
-        setFilteredIngrediente(data1.data);
+        setCategorias(data1.data);
+        setFilteredCategorias(data1.data);
     };
 
     const Eliminated = (value) => {
-        const urls = `${API_URL}ingredientes/${value}`;
+        const urls = `${API_URL}categorias/${value}`;
         fetch(urls, {
           method: 'DELETE',
           headers: {
@@ -52,7 +52,7 @@ export default function Reseñas() {
           .then((response) => response.json())
           .then((responseData) => {
             Alert.alert('Mensaje de la Api', responseData.message);
-            getIngredientes();
+            getCategorias();
           })
           .catch((error) => {
             Alert.alert('Mensaje de la Api');
@@ -61,17 +61,17 @@ export default function Reseñas() {
 
       const Buscador = (text) => {
         setSearchText(text);
-        const filteredList = ingredientes.filter((item) =>
+        const filteredList = categorias.filter((item) =>
           item.nombre.toLowerCase().includes(text.toLowerCase())
         );
-        setFilteredIngrediente(filteredList);
+        setFilteredCategorias(filteredList);
       };
 
 
     return( 
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
       <Searchbar
-        placeholder="Buscar por nombre de Ingrediente"
+        placeholder="Buscar por nombre de categorias"
         mode="bar"
         value={searchText}
         onChangeText={Buscador}
@@ -79,17 +79,15 @@ export default function Reseñas() {
         icon="magnify"
         clearIcon="close"
       />
-       
       <Text></Text>
 
       <TouchableOpacity style={styles.registerButton}  onPress={() =>
-        navigation.navigate('IngredientesCreate')}
+        navigation.navigate('CategoriaCreate')}
        >
         <Text style={styles.registerButtonText}>Registrarse</Text>
       </TouchableOpacity>
-
       <ScrollView>
-        {filteredIngrediente.map((item) => (
+        {filteredCategorias.map((item) => (
           <View style={styles.Card} key={item.id}>
              <Card key={item.id} style={styles.Card}>
               {/*<Card.Title title={item.receta_owner.nombre} />*/}
@@ -117,7 +115,7 @@ export default function Reseñas() {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
     );
     
 
@@ -134,7 +132,6 @@ const styles = StyleSheet.create({
     container: {
       marginBottom: 70,
       padding: 5,
-    
     },
     Card: {
       padding: 8,

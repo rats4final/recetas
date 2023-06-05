@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { TextInput, Text } from 'react-native-paper';
 
 // import { MaterialIcons } from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -45,6 +46,7 @@ const Login = () => {
         <TextInput
           style={styles.input}
           placeholder="Ingrese su correo electrónico"
+          right={<TextInput.Icon icon="email-check"/>}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -54,10 +56,8 @@ const Login = () => {
             style={styles.passwordInput}
             placeholder="Ingrese su contraseña"
             secureTextEntry={!passwordVisible}
+            right={<TextInput.Icon icon="eye" onPress={togglePasswordVisibility}/>}
           />
-          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIconContainer}>
-            <Image source={require('../views/Imagenes/6866733.png')} style={styles.eyeIcon} />
-          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.checkboxContainer}>

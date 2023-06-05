@@ -19,6 +19,9 @@ import Login from './src/views/Login';
 import HomeStackScreen from './src/views/Home';
 import Registro from './src/views/Registro';
 import Ingredientes from './src/views/Ingredientes';
+import IngredientesCreate from './src/views/IngredienteCreate';
+import Categorias from './src/views/Categorias';
+import CategoriaCreate from './src/views/CategoriaCreate'; 
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +53,17 @@ function MyStack() {
         name="Registro"
         component={Registro}
         options={{ title: 'Registro' }}
+      />
+
+     <Stack.Screen
+        name="IngredientesCreate"
+        component={IngredientesCreate}
+        options={{ title: 'IngredientesCreate' }}
+      />
+      <Stack.Screen
+        name="CategoriaCreate"
+        component={CategoriaCreate}
+        options={{ title: 'CategoriaCreate' }}
       />
 
       <Stack.Screen
@@ -104,10 +118,19 @@ function MyTabs() {
         options={{
           title: 'Ingredientes',
           tabBarIcon: ({  size }) => (
-            <Icon name="cutlery" size={size} color="black" />
+            <Icon name="qq" size={size} color="black" />
           ),
         }}
       />
+       <Tab.Screen
+        name="Categorias"
+        component={Categorias}
+        options={{
+          title: 'Categorias',
+          tabBarIcon: ({ size }) => (
+            <Icon name="pie-chart" size={size} color="black" />
+          ),
+        }}/>
     </Tab.Navigator>
   );
 }
