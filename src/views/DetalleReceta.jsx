@@ -1,11 +1,16 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {Card, Paragraph} from 'react-native-paper'
+import {Button, Card, Paragraph} from 'react-native-paper'
 import {StyleSheet, Dimensions, Text, View, ActivityIndicator, Image, ScrollView} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {API_URL} from "@env"
+import { createStackNavigator } from '@react-navigation/stack';
+import InsertarReseña from './InsertarReseña';
+import { useNavigation } from '@react-navigation/native';
+
 
 const DetalleReceta = ({route}) => {
+  const navigation = useNavigation();
   //no olvidar el return de mierda
   const ancho = Dimensions.get('window').width;
   const [receta, setReceta] = useState({images:[],ingredientes:[],reseñas:[]}); // investigar mas sobre useState(), muy importante;
@@ -70,8 +75,26 @@ const DetalleReceta = ({route}) => {
             ))
         }
       </ScrollView>
+      <Button
+        onPress={()=>navigation.navigate('AgregarReseña',{idReceta: idReceta})}
+      >Agregar un Comentario</Button>
     </View>
   );
 };
 
-export default DetalleReceta;
+
+const DetalleRecetaStack = createStackNavigator();
+
+const DetalleRecetaStackScreen = () => {
+  return (
+    <DetalleRecetaStack.Navigator 
+      screenOptions={{headerShown:true}}// nice
+    >
+      <DetalleRecetaStack.Screen name='DetalleReceta' component={DetalleReceta}/>
+      <DetalleRecetaStack.Screen name='AgregarReseña' component={InsertarReseña}/>
+    </DetalleRecetaStack.Navigator>
+  );
+}
+
+export default DetalleRecetaStackScreen
+//export default DetalleReceta;
