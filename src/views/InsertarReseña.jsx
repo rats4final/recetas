@@ -14,7 +14,7 @@ import {API_URL} from '@env';
 
 import Carousel from 'react-native-reanimated-carousel';
 
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ancho = Dimensions.get('window').width;
 
@@ -22,18 +22,22 @@ const InsertarReseña = ({route}) => {
   
   const [estrellas, setEstrellas] = useState('');
   const [cuerpo, setCuerpo] = useState('');
-  const [idUser, setIdUser] = useState(3);
+ // const [idUser, setIdUser] = useState('');
   const {idReceta,images} = route.params;
   const url = `${API_URL}reseñas`;
   
+  const {idUsuario} = route.params;
+
+  //setIdUser(idUsuario);
+
   const reseña = {
     id_receta: idReceta,
-    id_user: idUser, //llave de user cuando usemos authentica
+    id_user: parseInt(idUsuario), //llave de user cuando usemos authentica
     estrellas: parseInt(estrellas),
     cuerpo: cuerpo,
   };
   
-  console.log(url);
+  console.log(reseña);
   const enviarReseña = async () => {
     try {
     const response = await fetch(url, {

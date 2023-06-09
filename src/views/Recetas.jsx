@@ -6,17 +6,20 @@ import { Searchbar, Card, Paragraph } from 'react-native-paper';//ver luego lo d
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import DetalleRecetaStackScreen from './DetalleReceta';
-import {API_URL} from "@env"
+import {API_URL} from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo'
 
 
-const Receta = () => {
+const Receta = ({route}) => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const [recetas, setRecetas] = useState([]);// mucho cuidao aca eh, que el map se pone loco
   const [filteredRecetas, setFilteredRecetas] =  useState([]);
   const [searchQuery, setSearchQueary] = useState('');
+  const {id} = route.params.params;
+  //console.log("este es");
+  //console.log(route.params.params);
   const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async () => {
     try{
@@ -30,13 +33,13 @@ const Receta = () => {
       console.log(await AsyncStorage.getItem('recetas'));
       return (data.data);
     }catch(error){
-      console.error("Fallo al obtener los datos ", error)
+      console.error('Fallo al obtener los datos', error)
       console.log(url);
       const datosGuardados = await AsyncStorage.getItem('recetas');
       if(datosGuardados !== null){
         setFilteredRecetas(JSON.parse(datosGuardados));
         setRecetas(JSON.parse(datosGuardados));
-        console.log("gola");
+        console.log('gola');
       }
     }
   };
@@ -51,7 +54,7 @@ const Receta = () => {
           if(datosGuardados !== null) {
             setRecetas(JSON.parse(datosGuardados));
             setFilteredRecetas(JSON.parse(datosGuardados));
-            console.log("puta madre");
+            console.log('puta madre');
           }
         })();
       }
@@ -88,7 +91,7 @@ const Receta = () => {
       {filteredRecetas.map(receta => (
         <Card key={receta.id}onLongPress={() => navigation.navigate('DetalleRecetaScreen', {
           screen: 'DetalleReceta',
-          params: {idReceta: receta.id}
+          params: {idReceta: receta.id, idUsuario: id}
         })}>
           <Card.Title title={receta.nombre} />
           <Card.Cover source={{uri: receta.thumbnail.url}} />
@@ -109,12 +112,12 @@ const styles = StyleSheet.create({
 
 const RecetaStack = createStackNavigator();
 
-const RecetaStackScreen = () => {
+const RecetaStackScreen = ({route}) => {
   return (
     <RecetaStack.Navigator
       screenOptions={{headerShown:false}}
     >
-      <RecetaStack.Screen name="Lista de Recetas" component={Receta} />
+      <RecetaStack.Screen name="Lista de Recetas" initialParams={route} component={Receta} />
       <RecetaStack.Screen name="DetalleRecetaScreen" component={DetalleRecetaStackScreen} />
     </RecetaStack.Navigator>
   );

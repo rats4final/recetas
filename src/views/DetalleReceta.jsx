@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {Button, Card, Paragraph} from 'react-native-paper'
-import {StyleSheet, Dimensions, Text, View, ActivityIndicator, Image, ScrollView} from 'react-native';
+import {Dimensions, Text, View, ActivityIndicator, Image, ScrollView} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import {API_URL} from "@env"
+import {API_URL} from '@env'
 import { createStackNavigator } from '@react-navigation/stack';
 import InsertarReseña from './InsertarReseña';
 import { useNavigation } from '@react-navigation/native';
@@ -15,8 +15,9 @@ const DetalleReceta = ({route}) => {
   const ancho = Dimensions.get('window').width;
   const [receta, setReceta] = useState({images:[],ingredientes:[],reseñas:[]}); // investigar mas sobre useState(), muy importante;
   const url = `${API_URL}recetas/`; // extra / para el endpoint
-  //console.log(url);
+  console.log(route);
   const {idReceta} = route.params;
+  const {idUsuario} = route.params;
   const getReceta = async () => {
     const response = await fetch(`${url}${idReceta}`);
     const data = await response.json();
@@ -27,6 +28,7 @@ const DetalleReceta = ({route}) => {
     getReceta();
   }, []);
   console.log(idReceta);
+  console.log(`Este es el usuario ${idUsuario}`)
   return (
     <View style={{ flex: 1 }}>
       <Text className="text-black bg-white rounded-lg p-3 font-bold">{receta.nombre}</Text>
@@ -76,7 +78,7 @@ const DetalleReceta = ({route}) => {
         }
       </ScrollView>
       <Button
-        onPress={()=>navigation.navigate('AgregarReseña',{idReceta: idReceta , images:receta.images})}
+        onPress={()=>navigation.navigate('AgregarReseña',{idReceta: idReceta , images:receta.images, idUsuario:idUsuario})}
       >Agregar un Comentario</Button>
     </View>
   );

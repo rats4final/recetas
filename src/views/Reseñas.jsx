@@ -7,7 +7,6 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
-  Button,
   Dimensions,
   Image,
 } from 'react-native';
@@ -19,21 +18,24 @@ import { useNavigation } from '@react-navigation/native';
 import { API_URL } from '@env';
 
 import {
-  PanGestureHandler,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 
-export default function Reseñas() {
+export default function Reseñas({route}) {
+  console.log(route.params);
   const ancho = Dimensions.get('window').width;
 
   // const [receta, setReceta] = useState({images:[],ingredientes:[],reseñas:[]});
 
   const navigation = useNavigation();
-
   const [reseña, setRecetas] = useState({ images: [] });
   const [filteredReseña, setFilteredReseña] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const url = `${API_URL}reseñas/3`;
+
+  const {id} = route.params
+  console.log('route resenias');
+  console.log(route.params);
+  const url = `${API_URL}reseñas/${id}`;
   console.log(url);
   
 
@@ -68,6 +70,7 @@ export default function Reseñas() {
         getRecetas();
       })
       .catch((error) => {
+        console.error(error);
         Alert.alert('Mensaje de la Api');
       });
   };

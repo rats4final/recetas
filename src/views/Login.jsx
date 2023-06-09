@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState} from 'react';
 import { View, StyleSheet, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { TextInput, Text } from 'react-native-paper';
 
@@ -12,10 +12,52 @@ import { Card } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import {API_URL} from '@env'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
-  const [rememberMe, setRememberMe] = React.useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState();
+  const [message, setMessage] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);// no se si esto sea util
+
+  const url = `${API_URL}login`;
+  const datosLogin = {
+    email: email,
+    password: password,
+  }// no se si es bueno que los datos del login sean globales, pero meh
+
+  const enviarDatos = async () => {
+    const response = await fetch(url,{
+      method: 'POST',
+      headers: {
+        //'Authorization': `Bearer ${token}`, ahora que me doy cuenta no es necesario XD
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(datosLogin)
+    });
+    console.log(response.status);
+    const data = await response.json();
+    setMessage(data.message);
+    if (response.status == 401){
+      //si la autenticacion falla
+      Alert.alert('No autorizado', data.message)
+      return false;
+    }else{
+      await AsyncStorage.setItem('tokenLogin',data.accessToken);
+      await AsyncStorage.setItem('usuario',JSON.stringify(data.user));
+
+      console.log(await AsyncStorage.getItem('tokenLogin'));
+      console.log(await AsyncStorage.getItem('usuario'));
+
+      Alert.alert('Autorizado', data.message);
+      return true;
+    }
+    
+    
+  }
+  
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -46,7 +88,13 @@ const Login = () => {
         <TextInput
           style={styles.input}
           placeholder="Ingrese su correo electrónico"
+          keyboardType='email-address'
           right={<TextInput.Icon icon="email-check"/>}
+          value={email}
+          onChangeText={(email) => {
+            setEmail(email)
+          }
+          }
         />
       </View>
       <View style={styles.inputContainer}>
@@ -57,6 +105,11 @@ const Login = () => {
             placeholder="Ingrese su contraseña"
             secureTextEntry={!passwordVisible}
             right={<TextInput.Icon icon="eye" onPress={togglePasswordVisibility}/>}
+            value={password}
+            onChangeText={(password) => {
+              setPassword(password);
+            }
+            }
           />
         </View>
       </View>
@@ -72,19 +125,22 @@ const Login = () => {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}   
-          onPress={() => {
+          onPress={async () => {
             //navigation.navigate('Home');
-            navigation.dispatch(
-              CommonActions.reset({
-                  index: 0,
-                  routes: [
-                      { name: 'Home' },
-                  ],
-              })
-          );
+              const resultado = await enviarDatos()
+                if (resultado) {
+                  navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            { name: 'Home' },
+                        ],
+                    })
+                  );
+                }
+            
           }}
         >
-
           <Text style={styles.buttonText}>Iniciar sesión</Text>
         </TouchableOpacity>
       </View>

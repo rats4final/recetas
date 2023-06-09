@@ -7,9 +7,6 @@ import {
     ScrollView,
     Alert,
     TouchableOpacity,
-    Button,
-    Dimensions,
-    Image,
   } from 'react-native';
   import { Searchbar, Card, Paragraph } from 'react-native-paper';
   
@@ -55,6 +52,7 @@ export default function Categorias() {
             getCategorias();
           })
           .catch((error) => {
+            console.error(error);
             Alert.alert('Mensaje de la Api');
           });
       };

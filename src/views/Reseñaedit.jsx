@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Text, View, StyleSheet,Dimensions, TextInput, Image, Alert, TouchableOpacity,ScrollView } from "react-native";
-import { useRoute, useNavigation } from "@react-navigation/native";
-import {API_URL} from "@env"
+import { Text, View, StyleSheet,Dimensions, TextInput, Image, Alert, TouchableOpacity,ScrollView } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import {API_URL} from '@env'
 
 import Carousel from 'react-native-reanimated-carousel';
 
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ancho = Dimensions.get('window').width;
 
