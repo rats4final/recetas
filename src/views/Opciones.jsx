@@ -4,9 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native'; 
 import { CommonActions } from '@react-navigation/native';  
-import Login from './Login';
-import Navigation from "../../Navigations";
-import { Appbar } from "react-native-paper";
+
 
 const Opciones = () => {
     const navigation = useNavigation();
