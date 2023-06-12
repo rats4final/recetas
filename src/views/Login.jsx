@@ -113,7 +113,7 @@ const Login = () => {
           />
         </View>
       </View>
-      <View style={styles.checkboxContainer}>
+      {/* <View style={styles.checkboxContainer}>
         <TouchableOpacity onPress={toggleRememberMe} style={styles.checkbox}>
           {rememberMe ? (
             <Icon name="check-box" size={24} color="black" />
@@ -122,7 +122,7 @@ const Login = () => {
           )}
           <Text style={styles.checkboxLabel}>Recuérdame</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}   
           onPress={async () => {

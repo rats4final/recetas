@@ -70,7 +70,7 @@ const Registro = () => {
         <TextInput
           style={styles.input}
           placeholder="Apellidos"
-          secureTextEntry
+          //secureTextEntry
           value={apellidos}
           onChangeText={(apellidos) => {
             setApellidos(apellidos)
@@ -80,7 +80,7 @@ const Registro = () => {
         <TextInput
           style={styles.input}
           placeholder="Telefono"
-          secureTextEntry
+          //secureTextEntry
           value={telefono}
           onChangeText={(telefono) => {
             setTelefono(telefono)
@@ -90,7 +90,7 @@ const Registro = () => {
         <TextInput 
           style={styles.input} 
           placeholder="Email" 
-          secureTextEntry
+          //secureTextEntry
           value={email}
           onChangeText={(email) => {
             setEmail(email)

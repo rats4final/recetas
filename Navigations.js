@@ -133,7 +133,7 @@ function MyTabs() {
           title: 'Opciones',
           headerShown: false,
           tabBarIcon: ({ size }) => (
-            <Icon name="pie-chart" size={size} color="black" />
+            <Icon name="gear" size={size} color="black" />
           ),
         }}
       />
