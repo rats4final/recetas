@@ -18,8 +18,8 @@ const Receta = ({route}) => {
   const [filteredRecetas, setFilteredRecetas] =  useState([]);
   const [searchQuery, setSearchQueary] = useState('');
   const {id} = route.params.params;
-  //console.log("este es");
-  //console.log(route.params.params);
+  console.log("este es");
+  // console.log(route.params.params);
   const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async () => {
     try{
@@ -115,12 +115,15 @@ const styles = StyleSheet.create({
 
 const RecetaStack = createStackNavigator();
 
-const RecetaStackScreen = ({route}) => {
+const RecetaStackScreen = (props) => {
+  useEffect(() => {
+    // aquí puedes manejar los cambios en props.usuario
+  }, [props.usuario]);
   return (
     <RecetaStack.Navigator
       screenOptions={{headerShown:false}}
     >
-      <RecetaStack.Screen name="Lista de Recetas" initialParams={route} component={Receta} />
+      <RecetaStack.Screen name="Lista de Recetas" initialParams={props.usuario} component={Receta} />
       <RecetaStack.Screen name="DetalleRecetaScreen" component={DetalleRecetaStackScreen} />
     </RecetaStack.Navigator>
   );

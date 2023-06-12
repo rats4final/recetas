@@ -37,7 +37,7 @@ const InsertarReseña = ({route}) => {
     cuerpo: cuerpo,
   };
   
-  console.log(reseña);
+  console.log(idUsuario);
   const enviarReseña = async () => {
     try {
     const response = await fetch(url, {

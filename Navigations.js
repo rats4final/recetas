@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { ActivityIndicator, View} from 'react-native';
 //vistas truchas
 // import { Icon } from '@mdi/react';
 // import { mdiAccount } from '@mdi/js';
@@ -28,16 +28,22 @@ const Stack = createNativeStackNavigator();
 
 
 function MyStack() {
-  const [usuario, setUsuario] = useState({});
+//  const  [Cargando, setCargando] = useState(true);
+
+  const [usuario, setUsuario] = useState(null);
   const getUsuario = async () => {
     const response = await AsyncStorage.getItem('usuario');
     const data = await JSON.parse(response);
     setUsuario(data);
+    // setCargando(false);
   }
 
   useEffect(() => {
     getUsuario();
   },[])
+
+  
+  
 
   console.log('usuario navigation');
   console.log(usuario);
@@ -74,7 +80,7 @@ function MyTabs() {
       <Tab.Screen
         name="Recetas"
         initialParams={usuario}
-        component={RecetaStackScreen}
+        component={props => <RecetaStackScreen {...props} usuario={usuario} />}
         options={{
           title: 'Recetas',
           tabBarIcon: ({ size }) => (
@@ -108,7 +114,7 @@ function MyTabs() {
 
   return (
     <Stack.Navigator 
-      initialRouteName={usuario == null ? 'login' : 'Home'}
+      initialRouteName={usuario == null ? 'Home' : 'login'}
       screenOptions={{headerShown:false}}
     >
       <Stack.Screen

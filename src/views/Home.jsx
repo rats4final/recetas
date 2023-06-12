@@ -16,6 +16,7 @@ import InsertarReceta from './InsertarReceta';
 import { Card, Paragraph } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar } from 'react-native-screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
   const [user, setUser] = useState('');
@@ -36,6 +37,9 @@ const Home = () => {
       </Card>
       </ScrollView>
       <Button title='Insertar' onPress={()=>navigation.navigate('Crear una receta')}/>
+
+
+      <Button title='Robado' onPress={()=>AsyncStorage.removeItem('usuario')}/>
     </View>
   );
 };
