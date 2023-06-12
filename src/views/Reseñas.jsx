@@ -101,8 +101,6 @@ export default function Reseñas({route}) {
         icon="magnify"
         clearIcon="close"
       />
-      <Text></Text>
-
       <ScrollView>
         {filteredReseña.map((item) => (
           <View style={styles.Card} key={item.id}>

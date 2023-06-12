@@ -89,10 +89,13 @@ const Receta = ({route}) => {
         }
       >
       {filteredRecetas.map(receta => (
-        <Card key={receta.id}onLongPress={() => navigation.navigate('DetalleRecetaScreen', {
-          screen: 'DetalleReceta',
-          params: {idReceta: receta.id, idUsuario: id}
-        })}>
+        <Card 
+          key={receta.id}
+          onLongPress={() => navigation.navigate('DetalleRecetaScreen', {
+            screen: 'DetalleReceta',
+            params: {idReceta: receta.id, idUsuario: id}
+          })}
+        >
           <Card.Title title={receta.nombre} />
           <Card.Cover source={{uri: receta.thumbnail.url}} />
           <Card.Content>

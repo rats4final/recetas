@@ -25,7 +25,7 @@ const InsertarReceta = () => {
   const [tiempo, setTiempo] = useState('');
   const [show, setShow] = useState(false);
 
-  const [imagenes, setImagenes] = useState([]);
+  const [imagenes, setImagenes] = useState([]); 
   const [usuario, setUsuario] = useState(3); // esto esta hardcoded de momento
   const [selectedCategoria, setSelectedCategoria] = useState([]);
 

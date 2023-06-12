@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useEffect, useState} from 'react';
 import {
   Button,
   Text,
@@ -10,40 +10,42 @@ import {
   Alert,
 } from 'react-native';
 
-import { CommonActions } from '@react-navigation/native';
-
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import InsertarReceta from './InsertarReceta';
+import { Card, Paragraph } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SearchBar } from 'react-native-screens';
 
 const Home = () => {
+  const [user, setUser] = useState('');
+  const [recetas, setRecetas] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [filteredRecetas, setFilteredRecetas] = useState([]);
   const navigation = useNavigation();
-  // navigation.dispatch(
-  //   CommonActions.reset({
-  //     index:1,
-  //     routes: [
-  //       {name:"Home"},
-  //       {name:"Crear una receta"}
-  //     ]
-  //   })
-  // )
-
   return (
     <View>
-      <Text>Este si es el home</Text>
+      <SearchBar/>
+      <ScrollView>
+      <Card>
+          <Card.Title title="" subtitle="Tu recetario de confianza" />
+          <Card.Cover/>
+          <Card.Content>
+            <Paragraph></Paragraph>
+          </Card.Content>
+      </Card>
+      </ScrollView>
       <Button title='Insertar' onPress={()=>navigation.navigate('Crear una receta')}/>
     </View>
   );
 };
-
-const styles = StyleSheet.create({}); // usa tailwind bro
 
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="Tus Recetas" component={Home} />
       <HomeStack.Screen name="Crear una receta" component={InsertarReceta} />
     </HomeStack.Navigator>
   );

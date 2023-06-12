@@ -29,7 +29,6 @@ const Stack = createNativeStackNavigator();
 
 function MyStack() {
   const [usuario, setUsuario] = useState({});
-
   const getUsuario = async () => {
     const response = await AsyncStorage.getItem('usuario');
     const data = await JSON.parse(response);
@@ -109,7 +108,7 @@ function MyTabs() {
 
   return (
     <Stack.Navigator 
-      initialRouteName={usuario ? 'Home' : 'login'}
+      initialRouteName={usuario == null ? 'Home' : 'login'}
       screenOptions={{headerShown:false}}
     >
       <Stack.Screen
