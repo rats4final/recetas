@@ -108,7 +108,7 @@ function MyTabs() {
 
   return (
     <Stack.Navigator 
-      initialRouteName={usuario == null ? 'Home' : 'login'}
+      initialRouteName={usuario == null ? 'login' : 'Home'}
       screenOptions={{headerShown:false}}
     >
       <Stack.Screen
