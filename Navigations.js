@@ -21,7 +21,9 @@ import Ingredientes from './src/views/Ingredientes';
 import IngredientesCreate from './src/views/IngredienteCreate';
 import Categorias from './src/views/Categorias';
 import CategoriaCreate from './src/views/CategoriaCreate'; 
+import OpcionesStackScreen from './src/views/Opciones';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { set } from 'date-fns';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,18 +33,22 @@ function MyStack() {
 //  const  [Cargando, setCargando] = useState(true);
 
   const [usuario, setUsuario] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const getUsuario = async () => {
     const response = await AsyncStorage.getItem('usuario');
     const data = await JSON.parse(response);
     setUsuario(data);
     // setCargando(false);
+    setLoadingUser(false);
   }
 
   useEffect(() => {
     getUsuario();
   },[])
 
-  
+  if(loadingUser){  
+    return null;
+  }
   
 
   console.log('usuario navigation');
@@ -110,7 +116,7 @@ function MyTabs() {
           ),
         }}
       />
-       <Tab.Screen
+      <Tab.Screen
         name="Categorias"
         component={Categorias}
         options={{
@@ -118,7 +124,19 @@ function MyTabs() {
           tabBarIcon: ({ size }) => (
             <Icon name="pie-chart" size={size} color="black" />
           ),
-        }}/>
+        }}
+      />
+      <Tab.Screen
+        name="Opciones"
+        component={OpcionesStackScreen}
+        options={{
+          title: 'Opciones',
+          headerShown: false,
+          tabBarIcon: ({ size }) => (
+            <Icon name="pie-chart" size={size} color="black" />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

@@ -17,29 +17,56 @@ import { Card, Paragraph } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar } from 'react-native-screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '@env';
 
 const Home = () => {
-  const [user, setUser] = useState('');
-  const [recetas, setRecetas] = useState('');
-  const [searchText, setSearchText] = useState('');
-  const [filteredRecetas, setFilteredRecetas] = useState([]);
+  const [user, setUser] = useState({});
+  const [recetas, setRecetas] = useState([]);
+  // const [searchText, setSearchText] = useState('');
+  // const [filteredRecetas, setFilteredRecetas] = useState([]);
+
+  
+  console.log(user);
+  //console.log(url);
+  
+  const getUser = async () => {
+    const usuario = await AsyncStorage.getItem('usuario');
+    const usuarioJson = JSON.parse(usuario);
+    setUser(usuarioJson);
+    const url = `${API_URL}recetas/usuario/${usuarioJson.id}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    setRecetas(data.data);
+  };
+
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   const navigation = useNavigation();
   return (
     <View>
       <SearchBar/>
       <ScrollView>
-      <Card>
-          <Card.Title title="" subtitle="Tu recetario de confianza" />
-          <Card.Cover/>
+      {recetas.map(receta => (
+        <Card 
+          key={receta.id}
+        >
+          <Card.Title title={receta.nombre} />
+          <Card.Cover source={{uri: receta.thumbnail.url}} />
           <Card.Content>
-            <Paragraph></Paragraph>
+            <Paragraph>{receta.instrucciones}</Paragraph>
           </Card.Content>
-      </Card>
+        </Card>
+      ))}
       </ScrollView>
       <Button title='Insertar' onPress={()=>navigation.navigate('Crear una receta')}/>
-
-
-      <Button title='Robado' onPress={()=>AsyncStorage.removeItem('usuario')}/>
     </View>
   );
 };
@@ -56,3 +83,16 @@ const HomeStackScreen = () => {
 };
 
 export default HomeStackScreen;
+
+/*
+
+En la mayoría de los casos, no deberías necesitar confiar en el valor inmediatamente actualizado del estado. Si necesitas realizar alguna acción después de que se haya actualizado el estado, puedes usar el hook useEffect para programar esa acción.
+
+Por ejemplo, en tu caso, necesitas llamar a getRecetas después de que user se haya actualizado. En lugar de tratar de hacer esto inmediatamente después de llamar a setUser, puedes usar useEffect para programar getRecetas para que se ejecute después de que el estado user se haya actualizado.
+
+useEffect(() => {
+  // Esto se ejecuta después de que el estado `user` se ha actualizado.
+  getRecetas();
+}, [user]); // Pasamos `user` como dependencia para este useEffect.
+
+*/

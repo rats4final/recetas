@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Text, SafeAreaView} from 'react-native';
+import {Text, SafeAreaView, Alert} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 import {API_URL} from '@env';
 import {Button, TextInput} from 'react-native-paper';
@@ -9,8 +9,11 @@ import DocumentPicker, {
   isInProgress,
 } from 'react-native-document-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { format } from 'date-fns';
-
+import { format, set } from 'date-fns';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { id } from 'date-fns/locale';
+import { useNavigation } from '@react-navigation/native';
 
 
 const InsertarReceta = () => {
@@ -26,15 +29,23 @@ const InsertarReceta = () => {
   const [show, setShow] = useState(false);
 
   const [imagenes, setImagenes] = useState([]); 
-  const [usuario, setUsuario] = useState(3); // esto esta hardcoded de momento
+  const [usuario, setUsuario] = useState(''); // esto esta hardcoded de momento
   const [selectedCategoria, setSelectedCategoria] = useState([]);
 
   const urlIngredientes = `${API_URL}ingredientes`;
   const urlCategorias = `${API_URL}categorias`;
   const urlRecetas = `${API_URL}recetas`;
 
+
+  const navigation = useNavigation();
+
   //console.log(selectedIngredientes);
-  console.log(imagenes);
+  console.log(usuario);
+
+  const getUsuario = async () => {
+    const usuario = await AsyncStorage.getItem('usuario');
+    setUsuario(JSON.parse(usuario));
+  };
 
   const getIngredientes = async () => {
     const response = await fetch(urlIngredientes);
@@ -54,7 +65,7 @@ const InsertarReceta = () => {
     formData.append('nombre', nombre);
     formData.append('instrucciones', instrucciones);
     formData.append('tiempo', tiempo);
-    formData.append('id_user', usuario);
+    formData.append('id_user', usuario.id);
     formData.append('id_categoria', selectedCategoria[0]);
 
     selectedIngredientes.forEach((elemento, indice) => {
@@ -79,7 +90,9 @@ const InsertarReceta = () => {
       },
     });
     const data = await response.json();
+    Alert.alert('Receta creada', data.message);
     console.log(data);
+    navigation.goBack();
   };
 
   const onChange = (event, selectedTime) =>{
@@ -98,6 +111,7 @@ const InsertarReceta = () => {
   useEffect(() => {
     getCategorias();
     getIngredientes();
+    getUsuario();
   }, []); // [] es igual a on mount
 
   return (
