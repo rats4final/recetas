@@ -52,6 +52,18 @@ function MyStack() {
   const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+
+  const [usuario, setUsuario] = useState({});
+  const getUsuario = async () => {
+    const response = await AsyncStorage.getItem('usuario');
+    const data = await JSON.parse(response);
+    setUsuario(data);
+  }
+
+  useEffect(() => {
+    getUsuario();
+  },[])
+
   return (
     <Tab.Navigator 
       initialRouteName='Recetas' // la puse para que no se muera tu coso
@@ -80,7 +92,7 @@ function MyTabs() {
       <Tab.Screen
         name="Recetas"
         initialParams={usuario}
-        component={props => <RecetaStackScreen {...props} usuario={usuario} />}
+        component={RecetaStackScreen}
         options={{
           title: 'Recetas',
           tabBarIcon: ({ size }) => (
@@ -114,7 +126,7 @@ function MyTabs() {
 
   return (
     <Stack.Navigator 
-      initialRouteName={usuario == null ? 'Home' : 'login'}
+      initialRouteName={usuario == null ? 'login' : 'Home'}
       screenOptions={{headerShown:false}}
     >
       <Stack.Screen

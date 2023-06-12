@@ -17,13 +17,16 @@ const Receta = ({route}) => {
   const [recetas, setRecetas] = useState([]);// mucho cuidao aca eh, que el map se pone loco
   const [filteredRecetas, setFilteredRecetas] =  useState([]);
   const [searchQuery, setSearchQueary] = useState('');
-  const {id} = route.params.params;
+  const [usuario, setUsuario] = useState({});
+  const {id} = usuario;
   console.log("este es");
   // console.log(route.params.params);
   const url = `${API_URL}recetas`;//ejemplo de como usar el env
   const getRecetas = async () => {
     try{
       //console.log(url);
+      const usuario = await AsyncStorage.getItem('usuario');
+      setUsuario(JSON.parse(usuario));
       const response = await fetch(url);
       const data = await response.json();
       //console.log(data);
@@ -115,15 +118,12 @@ const styles = StyleSheet.create({
 
 const RecetaStack = createStackNavigator();
 
-const RecetaStackScreen = (props) => {
-  useEffect(() => {
-    // aquí puedes manejar los cambios en props.usuario
-  }, [props.usuario]);
+const RecetaStackScreen = ({route}) => {
   return (
     <RecetaStack.Navigator
       screenOptions={{headerShown:false}}
     >
-      <RecetaStack.Screen name="Lista de Recetas" initialParams={props.usuario} component={Receta} />
+      <RecetaStack.Screen name="Lista de Recetas" initialParams={route} component={Receta}/>
       <RecetaStack.Screen name="DetalleRecetaScreen" component={DetalleRecetaStackScreen} />
     </RecetaStack.Navigator>
   );
